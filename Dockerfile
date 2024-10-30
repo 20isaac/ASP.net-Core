@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
 # Copy the .csproj file and restore any dependencies
-COPY DotNetEd.CoreAdmin/*.csproj ./  # Adjusted to match the app name
+COPY scr/DotNetEd.CoreAdmin/*.csproj ./  # Adjusted to match the app name
 RUN dotnet restore
 
 # Copy everything else and build the application
