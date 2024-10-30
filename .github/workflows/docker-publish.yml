@@ -24,12 +24,12 @@ jobs:
       - name: Build the application
         run: dotnet build --no-restore --configuration Release
 
-      # Publish each project individually and specify the target framework
+      # Publish each project individually to unique output directories
       - name: Publish DotNetEd.CoreAdmin
-        run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish
+        run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
 
       - name: Publish IntegrationTestApp
-        run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish
+        run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
