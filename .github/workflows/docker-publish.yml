@@ -1,0 +1,37 @@
+name: Publish to Docker Hub
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0' # Update if you're using a different .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the application
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Publish the application
+        run: dotnet publish -c Release -o publish
+
+      - name: Log in to Docker Hub
+        run: docker login --username=20isaac --password=Global123%
+
+      - name: Build Docker image
+        run: docker build -t 20isaac/aspnet-core-app:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push 20isaac/aspnet-core-app:latest
