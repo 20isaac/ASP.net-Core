@@ -33,7 +33,7 @@ jobs:
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
-        run: echo "Global23%" | docker login -u "20isaac" --password-stdin
+        run: docker login --username=20isaac --password=Global123%
 
       - name: Build Docker image
         run: docker build -t 20isaac/aspnet-core-app:latest .
