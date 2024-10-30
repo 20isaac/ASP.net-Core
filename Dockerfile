@@ -7,7 +7,9 @@ COPY . ./
 RUN dotnet restore ./src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj
 
 # Publish the application
-RUN dotnet publish ./src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -o out
+#RUN dotnet publish ./src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -o out
+# Publish the application, specifying .NET 8.0 as the target framework
+RUN dotnet publish ./src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -o out -f net8.0
 
 # Use the .NET runtime base image for running the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
