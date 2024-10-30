@@ -16,7 +16,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0' # Update if you're using a different .NET version
+          dotnet-version: '8.0' # Ensure this matches the target framework version
 
       - name: Restore dependencies
         run: dotnet restore
@@ -24,11 +24,16 @@ jobs:
       - name: Build the application
         run: dotnet build --no-restore --configuration Release
 
-      - name: Publish the application
-        run: dotnet publish -c Release -o publish
+      # Publish each project individually and specify the target framework
+      - name: Publish DotNetEd.CoreAdmin
+        run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish
 
+      - name: Publish IntegrationTestApp
+        run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish
+
+      # Log in to Docker Hub
       - name: Log in to Docker Hub
-        run: docker login --username=20isaac --password=Global123%
+        run: echo "Global23%" | docker login -u "20isaac" --password-stdin
 
       - name: Build Docker image
         run: docker build -t 20isaac/aspnet-core-app:latest .
