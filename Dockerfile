@@ -1,22 +1,19 @@
-# Use the official .NET SDK image for building the application
+# Use the .NET SDK base image for building the app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-# Copy the .csproj and restore any dependencies
-COPY *.csproj ./
+# Copy the .csproj file and restore any dependencies
+COPY DotNetEd.CoreAdmin/*.csproj ./  # Adjusted to match the app name
 RUN dotnet restore
 
 # Copy everything else and build the application
-COPY . ./
-RUN dotnet publish -c Release -o /publish
+COPY DotNetEd.CoreAdmin/. ./
+RUN dotnet publish -c Release -o out
 
-# Use the runtime image to run the app
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+# Use the .NET runtime base image for running the app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build /publish .
+COPY --from=build /app/out ./
 
-# Expose port 80
-EXPOSE 80
-
-# Run the application
-ENTRYPOINT ["dotnet", "ASP.net-Core.dll"]
+# Specify the command to run the application
+ENTRYPOINT ["dotnet", "DotNetEd.CoreAdmin.dll"]  # Ensure this matches your DLL name
