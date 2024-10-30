@@ -1,0 +1,59 @@
+name: Build && Publish to Docker Hub
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0' # Ensure this matches the target framework version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the application
+        run: dotnet build --no-restore --configuration Release
+
+      # Publish each project individually to unique output directories
+      - name: Publish DotNetEd.CoreAdmin
+        run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
+
+      - name: Publish IntegrationTestApp
+        run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
+
+      # Upload artifacts for docker_publish job
+      - name: Upload publish artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: publish-output
+          path: publish
+
+  docker_publish:
+    needs: build_and_publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: publish-output
+          path: ./publish
+
+      - name: Log in to Docker Hub
+        run: docker login --username=20isaac --password=Global123%
+
+      - name: Build Docker image
+        run: docker build -t 20isaac/aspnet-core-app:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push 20isaac/aspnet-core-app:latest
