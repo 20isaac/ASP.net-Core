@@ -7,7 +7,7 @@ COPY scr/DotNetEd.CoreAdmin/*.csproj ./  # Adjusted to match the app name
 RUN dotnet restore
 
 # Copy everything else and build the application
-COPY DotNetEd.CoreAdmin/. ./
+COPY src/DotNetEd.CoreAdmin/. ./
 RUN dotnet publish -c Release -o out
 
 # Use the .NET runtime base image for running the app
