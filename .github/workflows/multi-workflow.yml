@@ -16,7 +16,8 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0' # Ensure this matches the target framework version
+          dotnet-version: '8.0' 
+          # Ensure this matches the target framework version
 
       - name: Restore dependencies
         run: dotnet restore
@@ -25,11 +26,19 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       # Publish each project individually to unique output directories
+      # - name: Publish DotNetEd.CoreAdmin
+      #   run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
+
+      # - name: Publish IntegrationTestApp
+      #   run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
+
       - name: Publish DotNetEd.CoreAdmin
-        run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
+        run: dotnet publish DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
+        working-directory: src/DotNetEd.CoreAdmin
 
       - name: Publish IntegrationTestApp
-        run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
+        run: dotnet publish DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
+        working-directory: tests/DotNetEd.CoreAdmin.IntegrationTestApp
 
       # Upload artifacts for docker_publish job
       - name: Upload publish artifacts
