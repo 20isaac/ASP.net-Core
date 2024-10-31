@@ -52,6 +52,9 @@ jobs:
         with:
           name: publish-output
           path: ./publish  
+          
+      - name: Copy Dockerfile to publish directory
+        run: cp Dockerfile ./publish/
 
       - name: Log in to Docker Hub
         run: docker login --username=20isaac --password=Global123%
