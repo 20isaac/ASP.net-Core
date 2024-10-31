@@ -53,7 +53,7 @@ jobs:
         run: docker login --username=20isaac --password=Global123%
 
       - name: Build Docker image
-        run: docker build -t 20isaac/aspnet-core-app:latest .
+        run: docker build -t 20isaac/aspnet-core-app:latest .      
 
       - name: Push Docker image to Docker Hub
         run: docker push 20isaac/aspnet-core-app:latest
