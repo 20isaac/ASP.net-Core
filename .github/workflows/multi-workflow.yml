@@ -16,8 +16,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0' 
-          # Ensure this matches the target framework version
+          dotnet-version: '8.0'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -25,22 +24,18 @@ jobs:
       - name: Build the application
         run: dotnet build --no-restore --configuration Release
 
-      # Publish each project individually to unique output directories
-      # - name: Publish DotNetEd.CoreAdmin
-      #   run: dotnet publish src/DotNetEd.CoreAdmin/DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
-
-      # - name: Publish IntegrationTestApp
-      #   run: dotnet publish tests/DotNetEd.CoreAdmin.IntegrationTestApp/DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
-
       - name: Publish DotNetEd.CoreAdmin
-        run: dotnet publish DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o publish/core-admin
+        run: dotnet publish DotNetEd.CoreAdmin.csproj -c Release -f net8.0 -o ../../publish/core-admin
         working-directory: src/DotNetEd.CoreAdmin
 
       - name: Publish IntegrationTestApp
-        run: dotnet publish DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o publish/integration-test
+        run: dotnet publish DotNetEd.CoreAdmin.IntegrationTestApp.csproj -c Release -f net8.0 -o ../../publish/integration-test
         working-directory: tests/DotNetEd.CoreAdmin.IntegrationTestApp
 
-      # Upload artifacts for docker_publish job
+      # Verify the contents of the publish directory
+      - name: Verify publish directory
+        run: ls -R publish
+
       - name: Upload publish artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -62,7 +57,10 @@ jobs:
         run: docker login --username=20isaac --password=Global123%
 
       - name: Build Docker image
-        run: docker build -t 20isaac/aspnet-core-app:latest .      
+        run: docker build -t 20isaac/aspnet-core-app:latest .
 
       - name: Push Docker image to Docker Hub
         run: docker push 20isaac/aspnet-core-app:latest
+
+
+ 
