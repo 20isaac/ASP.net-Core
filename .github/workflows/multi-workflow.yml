@@ -51,15 +51,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: publish-output
-          path: ./publish
-
-      - name: Verify publish directory contents
-        run: ls -R ./publish
-
-      - name: Copy Dockerfile to publish directory
-        run: cp ASP.net-Core/Dockerfile ./publish/
-
-
+          path: ./publish  
+          
       - name: Log in to Docker Hub
         run: docker login --username=20isaac --password=Global123%
 
