@@ -55,9 +55,9 @@ jobs:
 
       - name: Verify publish directory contents
         run: ls -R ./publish
-        
+
       - name: Copy Dockerfile to publish directory
-        run: cp Dockerfile ./publish/
+        run: cp ASP.net-Core/Dockerfile ./publish/
 
 
       - name: Log in to Docker Hub
