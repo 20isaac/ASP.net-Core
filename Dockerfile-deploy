@@ -1,3 +1,6 @@
+# Use the .NET SDK base image for building the app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
 
 # Use the .NET runtime base image for running the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
