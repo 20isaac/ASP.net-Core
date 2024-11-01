@@ -54,7 +54,7 @@ jobs:
           path: ./publish        
 
       - name: list all items in the publish folder
-        run: pwd && ls -ltra
+        run: pwd && ls -ltra && ls -ltra ./publish && ls -ltra ./publish/core-admin
 
       - name: Copy Dockerfile to publish directory
         run: cp Dockerfile ./publish/
