@@ -37,7 +37,7 @@ jobs:
         run: ls -R publish
 
       - name: Copy Dockerfile to publish directory
-        run: cp Dockerfile ./publish/
+        run: cp Dockerfile-deploy ./publish/
 
       - name: Upload publish artifacts
         uses: actions/upload-artifact@v3
@@ -64,7 +64,7 @@ jobs:
 
       - name: Build Docker image
         #run: docker build -t 20isaac/aspnet-core-app:latest .      
-        run: docker build -t 20isaac/aspnet-core-app:latest -f ./publish/Dockerfile .
+        run: docker build -t 20isaac/aspnet-core-app:latest -f ./publish/Dockerfile-deploy .
 
       - name: Push Docker image to Docker Hub
         run: docker push 20isaac/aspnet-core-app:latest
