@@ -2,7 +2,7 @@
 # Use the .NET runtime base image for running the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY ./core-admin/* .
+COPY . ./
 
 # Specify the command to run the application
 ENTRYPOINT ["dotnet", "DotNetEd.CoreAdmin.dll", "--server.urls", "http://*:8080"]
