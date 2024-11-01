@@ -36,6 +36,9 @@ jobs:
       - name: Verify publish directory
         run: ls -R publish
 
+      - name: Copy Dockerfile to publish directory
+        run: cp Dockerfile ./publish/
+        
       - name: Upload publish artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -55,9 +58,6 @@ jobs:
 
       - name: list all items in the publish folder
         run: pwd && ls -ltra && ls -ltra ./publish && ls -ltra ./publish/core-admin
-
-      - name: Copy Dockerfile to publish directory
-        run: cp Dockerfile ./publish/
 
       - name: Log in to Docker Hub
         run: docker login --username=20isaac --password=Global123%
